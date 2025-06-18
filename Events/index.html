@@ -22,15 +22,11 @@
       <button v-on:click="remove">Remove</button>
       <p v-once>Starting Counter: {{ counter }}</p>
       <p>Result: {{ counter }}</p>
-      <p>Your Name: {{confirmedName}}</p>
+      <p>Your Name: {{name}}</p>
       <!-- prevent default with modifier -->
       <form v-on:submit.prevent="" action="">
-        <input
-          v-on:input="setName"
-          v-on:keyup.enter="confirmInput"
-          type="text"
-        />
-        <button>Sign Up</button>
+        <input v-model="name" v-on:keyup.enter="confirmInput" type="text" />
+        <button v-on:click="resetInput">Reset input</button>
       </form>
     </section>
   </body>
