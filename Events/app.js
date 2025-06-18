@@ -11,6 +11,9 @@ const app = Vue.createApp({
     remove() {
       this.counter--;
     },
+    submitForm() {
+      event.preventDefault();
+    },
   },
 });
 

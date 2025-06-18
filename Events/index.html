@@ -22,7 +22,8 @@
       <button v-on:click="remove">Remove</button>
       <p>Result: {{ counter }}</p>
       <p>Your Name: {{name}}</p>
-      <form action="">
+      <!-- prevent default -->
+      <form v-on:submit="submitForm" action="">
         <input type="text" />
         <button>Sign Up</button>
       </form>
