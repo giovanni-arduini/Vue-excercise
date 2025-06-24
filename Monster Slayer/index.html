@@ -32,6 +32,9 @@
           <div class="player_manabar">
             <div class="manabar__value" :style="playerManaStyles"></div>
           </div>
+          <div class="player_turbobar">
+            <div class="turbobar__value" :style="playerTurboStyles"></div>
+          </div>
         </div>
       </section>
       <section v-if="winner" class="container">
@@ -42,8 +45,8 @@
       </section>
       <section id="controls">
         <button @click="attackMonster">ATTACK</button>
-        <button :disabled="mayUseSpecialAttack" @click="specialAttackMonster">
-          SPECIAL ATTACK
+        <button :disabled="mayUseTurboAttack" @click="specialAttackMonster">
+          TURBO
         </button>
         <button @click="healPlayer">HEAL</button>
         <button>SURRENDER</button>
