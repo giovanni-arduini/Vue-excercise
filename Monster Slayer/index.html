@@ -18,15 +18,20 @@
     </header>
     <div id="game">
       <section id="monster" class="container">
-        <h2>Monster Health</h2>
-        <div class="healthbar">
+        <h2>Monster</h2>
+        <div class="monster_healthbar">
           <div class="healthbar__value" :style="monsterBarStyles"></div>
         </div>
       </section>
       <section id="player" class="container">
-        <h2>Your Health</h2>
-        <div class="healthbar">
-          <div class="healthbar__value" :style="playerBarStyles"></div>
+        <h2>Player</h2>
+        <div class="player_stats">
+          <div class="player_healthbar">
+            <div class="healthbar__value" :style="playerHealthStyles"></div>
+          </div>
+          <div class="player_manabar">
+            <div class="manabar__value" :style="playerManaStyles"></div>
+          </div>
         </div>
       </section>
       <section v-if="winner" class="container">
