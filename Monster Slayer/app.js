@@ -117,8 +117,15 @@ const app = Vue.createApp({
       this.currentTurn = "player";
     },
 
+    monsterSuper() {
+      const attack = getRandomValue(20, 25);
+      this.addTurbo(20);
+      this.playerHealth -= attack;
+      this.currentTurn = "player";
+    },
+
     healMonster() {
-      const healValue = getRandomValue(20, 50);
+      const healValue = getRandomValue(20, 40);
       if (this.monsterHealth + healValue > this.initialMonsterHealth) {
         this.monsterHealth = this.initialMonsterHealth;
       } else {
@@ -133,7 +140,8 @@ const app = Vue.createApp({
       if (calculatePercentage(this.monsterHealth, this.initialMonsterHealth)) {
         healingChance > 90 ? this.healMonster() : this.attackPlayer();
       } else {
-        this.attackPlayer();
+        const superChance = getRandomValue(0, 100);
+        superChance > 95 ? this.monsterSuper() : this.attackPlayer();
       }
     },
 
