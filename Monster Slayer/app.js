@@ -2,24 +2,45 @@ function getRandomValue(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+function calculatePercentage(x, y) {
+  return (x / y) * 100;
+}
+
 const app = Vue.createApp({
   data() {
     return {
-      playerHealth: 100,
-      monsterHealth: 100,
+      playerHealth: 300,
+      initialPlayerHealth: 300,
+      playerMana: 100,
+      monsterHealth: 400,
+      initialMonsterHealth: 400,
       currentRound: 0,
       winner: null,
     };
   },
   computed: {
-    playerBarStyles() {
-      return { width: this.playerHealth + "%" };
+    playerHealthStyles() {
+      const actualPlayerHealth = calculatePercentage(
+        this.playerHealth,
+        this.initialPlayerHealth
+      );
+      return { width: actualPlayerHealth + "%" };
     },
-    monsterBarStyles() {
-      return { width: this.monsterHealth + "%" };
+
+    playerManaStyles() {
+      return { width: this.playerMana + "%" };
     },
+
     mayUseSpecialAttack() {
       return this.currentRound % 3 !== 0 || this.currentRound === 0;
+    },
+
+    monsterBarStyles() {
+      const actualMonsterHealth = calculatePercentage(
+        this.monsterHealth,
+        this.initialMonsterHealth
+      );
+      return { width: actualMonsterHealth + "%" };
     },
   },
   watch: {
@@ -57,14 +78,18 @@ const app = Vue.createApp({
       this.monsterHealth -= attack;
       this.attackPlayer();
     },
+
     healPlayer() {
       this.currentRound++;
-      const healValue = getRandomValue(8, 14);
-      if (this.playerHealth + healValue > 100) {
-        this.playerHealth = 100;
+      if (this.playerMana <= 0) return;
+
+      const healValue = getRandomValue(8, 20);
+      if (this.playerHealth + healValue > this.initialPlayerHealth) {
+        this.playerHealth = this.initialPlayerHealth;
       } else {
         this.playerHealth += healValue;
       }
+      this.playerMana -= 8;
       this.attackPlayer();
     },
   },
