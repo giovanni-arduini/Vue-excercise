@@ -12,6 +12,7 @@ const app = Vue.createApp({
       playerHealth: 300,
       initialPlayerHealth: 300,
       playerMana: 100,
+      playerTurbo: 10,
       monsterHealth: 400,
       initialMonsterHealth: 400,
       currentRound: 0,
@@ -31,8 +32,16 @@ const app = Vue.createApp({
       return { width: this.playerMana + "%" };
     },
 
-    mayUseSpecialAttack() {
-      return this.currentRound % 3 !== 0 || this.currentRound === 0;
+    playerTurboStyles() {
+      return { width: this.playerTurbo + "%" };
+    },
+
+    mayUseTurboAttack() {
+      if (this.playerTurbo < 100) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     monsterBarStyles() {
@@ -72,7 +81,7 @@ const app = Vue.createApp({
       const attack = getRandomValue(7, 15);
       this.playerHealth -= attack;
     },
-    specialAttackMonster() {
+    turboAttackMonster() {
       this.currentRound++;
       const attack = getRandomValue(11, 25);
       this.monsterHealth -= attack;
