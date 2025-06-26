@@ -28,6 +28,12 @@ const app = Vue.createApp({
       monsterMessageLog: "",
     };
   },
+  mounted() {
+    const savedName = localStorage.getItem("name");
+    if (savedName) {
+      this.playerName = savedName;
+    }
+  },
   computed: {
     playerHealthStyles() {
       const actualPlayerHealth = calculatePercentage(
@@ -61,6 +67,9 @@ const app = Vue.createApp({
     },
   },
   watch: {
+    name(value) {
+      localStorage.name = value;
+    },
     playerHealth(value) {
       if (value <= 0 && this.monsterHealth <= 0) {
         this.winner = "draw";
@@ -170,7 +179,14 @@ const app = Vue.createApp({
     },
 
     startFight() {
+      localStorage.setItem("name", this.playerName); // Save the name
       this.showPlayerNameInput = false;
+    },
+
+    surrender() {
+      if (confirm("Are you sure you want to run like a coward?")) {
+        this.winner = "monster";
+      } else return;
     },
 
     newRound() {
