@@ -17,44 +17,91 @@
       <h1>Monster Slayer</h1>
     </header>
     <div id="game">
+      <div v-if="showSurrenderModal" class="surrender_modal">
+        <div>
+          <p>Are you sure you want to quit?</p>
+          <button @click="surrender(sure)">Yes, I'm a coward!</button>
+          <button @click="surrender(keepOn)">NEVER!</button>
+        </div>
+      </div>
       <section id="monster" class="container">
         <h2>Monster</h2>
-        <div class="monster_healthbar">
-          <div class="healthbar__value" :style="monsterBarStyles"></div>
+        <div class="stat_info">
+          <p class="info_span">HP</p>
+          <div class="monster_healthbar">
+            <div class="healthbar__value" :style="monsterBarStyles"></div>
+          </div>
         </div>
       </section>
       <section id="player" class="container">
         <h2>Player</h2>
         <div class="player_stats">
-          <div class="player_healthbar">
-            <div class="healthbar__value" :style="playerHealthStyles"></div>
+          <div class="stat_info">
+            <span class="info_span">HP</span>
+            <div class="player_healthbar">
+              <div class="healthbar__value" :style="playerHealthStyles"></div>
+            </div>
           </div>
-          <div class="player_manabar">
-            <div class="manabar__value" :style="playerManaStyles"></div>
+
+          <div class="stat_info">
+            <span class="info_span">MP</span>
+            <div class="player_manabar">
+              <div class="manabar__value" :style="playerManaStyles"></div>
+            </div>
           </div>
-          <div class="player_turbobar">
-            <div class="turbobar__value" :style="playerTurboStyles"></div>
+
+          <div class="stat_info">
+            <span class="info_span">T</span>
+            <div class="player_turbobar">
+              <div class="turbobar__value" :style="playerTurboStyles"></div>
+            </div>
           </div>
         </div>
       </section>
+
       <section v-if="winner" class="container">
         <h2>Game Over!</h2>
         <h4 v-if="winner === 'monster'">You lost!</h4>
         <h4 v-else-if="winner === 'player'">You won!</h4>
         <h4 v-else="winner === 'draw'">It's a draw!</h4>
+        <button @click="newRound">NEW ROUND!</button>
       </section>
-      <section id="controls">
-        <button @click="attackMonster">ATTACK</button>
-        <button :disabled="mayUseTurboAttack" @click="turboAttackMonster">
-          TURBO
-        </button>
-        <button @click="healPlayer">HEAL</button>
-        <button>SURRENDER</button>
+
+      <section v-if="!winner" id="battle_infos">
+        <div v-if="showLog===false">
+          <section>
+            <div id="battle_events"></div>
+            <div id="controls">
+              <div class="button_containter">
+                <button @click="attackMonster">ATTACK</button>
+                <button
+                  :disabled="mayUseTurboAttack"
+                  @click="turboAttackMonster"
+                >
+                  TURBO
+                </button>
+                <button @click="healPlayer">HEAL</button>
+                <button @click="surrender">SURRENDER</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div v-if="showLog===true">
+          <section class="turn_log">
+            <div>
+              <p>{{playerMessageLog}}</p>
+              <p>{{monsterMessageLog}}</p>
+            </div>
+            <button @click="next">NEXT TURN!</button>
+          </section>
+        </div>
       </section>
-      <section id="log" class="container">
+
+      <!-- <section id="log" class="container">
         <h2>Battle Log</h2>
         <ul></ul>
-      </section>
+      </section> -->
     </div>
   </body>
 </html>
