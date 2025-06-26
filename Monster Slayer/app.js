@@ -20,8 +20,11 @@ const app = Vue.createApp({
       initialMonsterHealth: 400,
 
       // Common stats
-      currentTurn: 0,
+      showLog: false,
+      showSurrenderModal: false,
       winner: null,
+      playerMessageLog: "",
+      monsterMessageLog: "",
     };
   },
   computed: {
@@ -80,7 +83,7 @@ const app = Vue.createApp({
       this.addTurbo(4);
       this.monsterHealth -= attack;
       this.currentTurn = "monster";
-
+      this.playerMessageLog = `You dealt ${attack} damage to the monster!`;
       this.monsterTurn();
     },
 
@@ -89,7 +92,7 @@ const app = Vue.createApp({
       this.monsterHealth -= attack;
       this.playerTurbo = 0;
       this.currentTurn = "monster";
-
+      this.playerMessageLog = `You TURBO ATTACKED the monster and inflicted ${attack} damage!`;
       this.monsterTurn();
     },
 
@@ -104,6 +107,7 @@ const app = Vue.createApp({
       }
       this.playerMana -= 8;
       this.currentTurn = "monster";
+      this.playerMessageLog = `You healed and recovered ${healValue} HP!`;
 
       this.monsterTurn();
     },
@@ -115,6 +119,7 @@ const app = Vue.createApp({
       this.addTurbo(10);
       this.playerHealth -= attack;
       this.currentTurn = "player";
+      this.monsterMessageLog = `Monster attacked you and dealt ${attack} damage!`;
     },
 
     monsterSuper() {
@@ -122,6 +127,7 @@ const app = Vue.createApp({
       this.addTurbo(20);
       this.playerHealth -= attack;
       this.currentTurn = "player";
+      this.monsterMessageLog = `It's a super HIT! Monster attacked you and dealt ${attack} damage!`;
     },
 
     healMonster() {
@@ -131,18 +137,21 @@ const app = Vue.createApp({
       } else {
         this.monsterHealth += healValue;
       }
+      this.monsterMessageLog = `Monster healed and recovered ${healValue} HP!`;
 
       this.currentTurn = "player";
     },
 
     monsterTurn() {
       const healingChance = getRandomValue(0, 100);
-      if (calculatePercentage(this.monsterHealth, this.initialMonsterHealth)) {
-        healingChance > 90 ? this.healMonster() : this.attackPlayer();
+      if (this.monsterHealth < 350) {
+        healingChance > 30 ? this.healMonster() : this.attackPlayer();
       } else {
         const superChance = getRandomValue(0, 100);
         superChance > 95 ? this.monsterSuper() : this.attackPlayer();
       }
+
+      this.showLog = true;
     },
 
     // Common
@@ -153,6 +162,20 @@ const app = Vue.createApp({
       } else {
         this.playerTurbo += value;
       }
+    },
+
+    next() {
+      this.showLog = false;
+    },
+
+    surrender() {
+      if (confirm("Do you really want to surrender now?")) {
+        this.winner = "monster";
+      } else return;
+    },
+
+    newRound() {
+      window.location.reload();
     },
   },
 });
