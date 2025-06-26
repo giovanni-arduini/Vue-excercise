@@ -21,7 +21,8 @@ const app = Vue.createApp({
 
       // Common stats
       showLog: false,
-      showSurrenderModal: false,
+      showPlayerNameInput: true,
+      playerName: "Player",
       winner: null,
       playerMessageLog: "",
       monsterMessageLog: "",
@@ -168,10 +169,8 @@ const app = Vue.createApp({
       this.showLog = false;
     },
 
-    surrender() {
-      if (confirm("Do you really want to surrender now?")) {
-        this.winner = "monster";
-      } else return;
+    startFight() {
+      this.showPlayerNameInput = false;
     },
 
     newRound() {

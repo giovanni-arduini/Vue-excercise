@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vue Basics</title>
+    <title>Monster Slayer!</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
       rel="stylesheet"
@@ -17,11 +17,11 @@
       <h1>Monster Slayer</h1>
     </header>
     <div id="game">
-      <div v-if="showSurrenderModal" class="surrender_modal">
-        <div>
-          <p>Are you sure you want to quit?</p>
-          <button @click="surrender(sure)">Yes, I'm a coward!</button>
-          <button @click="surrender(keepOn)">NEVER!</button>
+      <div v-if="showPlayerNameInput" class="name_modal">
+        <div class="name_container">
+          <p>WHAT IS THY NAME, HERO?</p>
+          <input v-model="playerName" />
+          <button @click="startFight">LET'S BATTLE!</button>
         </div>
       </div>
       <section id="monster" class="container">
@@ -34,7 +34,7 @@
         </div>
       </section>
       <section id="player" class="container">
-        <h2>Player</h2>
+        <h2>{{playerName}}</h2>
         <div class="player_stats">
           <div class="stat_info">
             <span class="info_span">HP</span>
@@ -80,7 +80,9 @@
                 >
                   TURBO
                 </button>
-                <button @click="healPlayer">HEAL</button>
+                <button :disabled="playerMana <= 0" @click="healPlayer">
+                  HEAL
+                </button>
                 <button @click="surrender">SURRENDER</button>
               </div>
             </div>
