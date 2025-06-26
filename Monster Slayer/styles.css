@@ -38,6 +38,17 @@ section {
   flex-direction: column;
 }
 
+.stat_info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.info_span {
+  width: 2rem;
+}
+
 .player_healthbar {
   width: 100%;
   height: 30px;
@@ -51,8 +62,8 @@ section {
   width: 100%;
   height: 15px;
   border: 1px solid #575757;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+  /* margin-top: 0;
+  margin-bottom: 0.5rem; */
   background: #fde5e5;
 }
 
@@ -87,12 +98,27 @@ section {
   margin: 0.25rem;
 }
 
+#battle_infos {
+  height: 33vh;
+  max-height: 33vh;
+  grid-template-columns: 3fr 2fr;
+}
+
+#battle_events {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
 #controls {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.button_containter {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 button {
@@ -102,8 +128,8 @@ button {
   color: white;
   padding: 1rem 2rem;
   border-radius: 12px;
-  margin: 1rem;
-  width: 12rem;
+  /* margin: 1rem; */
+  /* width: 12rem; */
   cursor: pointer;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
 }
@@ -125,6 +151,17 @@ button:disabled {
   box-shadow: none;
   color: #3f3f3f;
   cursor: not-allowed;
+}
+
+.turn_log {
+  padding: 1rem;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 #log ul {
