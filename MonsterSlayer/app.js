@@ -110,7 +110,7 @@ const app = Vue.createApp({
       this.playerMana + 10 > 100
         ? ((this.playerMana = 100),
           (this.playerMessageLog = "You have full mana!"))
-        : ((this.playerthis.playerMana += 10),
+        : ((this.playerMana += 10),
           (this.playerMessageLog = `You recovered 10 MP!`));
 
       this.toggleShowUseMenu();
@@ -205,7 +205,7 @@ const app = Vue.createApp({
     monsterTurn() {
       const healingChance = getRandomValue(0, 100);
       if (this.monsterHealth < 350) {
-        healingChance > 30 ? this.healMonster() : this.attackPlayer();
+        healingChance > 10 ? this.healMonster() : this.attackPlayer();
       } else {
         const superChance = getRandomValue(0, 100);
         superChance > 95 ? this.monsterSuper() : this.attackPlayer();
