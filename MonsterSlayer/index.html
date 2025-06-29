@@ -62,16 +62,15 @@
 
       <section v-if="winner" class="container">
         <h2>Game Over!</h2>
-        <h4 v-if="winner === 'monster'">You lost!</h4>
-        <h4 v-else-if="winner === 'player'">You won!</h4>
+        <h4 v-if="winner === 'monster'">You've been slain!</h4>
+        <h4 v-else-if="winner === 'player'">You defeated the monster!</h4>
         <h4 v-else="winner === 'draw'">It's a draw!</h4>
         <button @click="newRound">NEW ROUND!</button>
       </section>
 
       <section v-if="!winner" id="battle_infos">
-        <div v-if="showLog===false">
+        <div v-if="showBattleButtons" class="battle_container">
           <section>
-            <div id="battle_events"></div>
             <div id="controls">
               <div class="button_containter">
                 <button @click="attackMonster">ATTACK</button>
@@ -84,13 +83,26 @@
                 <button :disabled="playerMana <= 0" @click="healPlayer">
                   HEAL
                 </button>
+                <button @click="toggleShowUseMenu">USE</button>
                 <button @click="surrender">SURRENDER</button>
               </div>
             </div>
           </section>
         </div>
 
-        <div v-if="showLog===true">
+        <div v-if="showUseMenu===true" class="battle_container">
+          <section>
+            <div id="controls">
+              <div class="button_containter">
+                <button :disabled="ether <= 0" @click="useEther">ETHER</button>
+                <button @click="useCheer">CHEER</button>
+                <button @click="toggleShowUseMenu">BACK</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div v-if="showLog===true" class="battle_container">
           <section class="turn_log">
             <div>
               <p>{{playerMessageLog}}</p>
