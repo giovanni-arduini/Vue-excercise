@@ -14,10 +14,13 @@ const app = Vue.createApp({
       initialPlayerHealth: 300,
       playerMana: 100,
       playerTurbo: 0,
+      playerSpeed: 10,
+      ether: 3,
 
       // Monster stats
       monsterHealth: 400,
       initialMonsterHealth: 400,
+      monsterSpeed: 5,
 
       // Common stats
       showLog: false,
@@ -64,6 +67,10 @@ const app = Vue.createApp({
         this.initialMonsterHealth
       );
       return { width: actualMonsterHealth + "%" };
+    },
+
+    dodgeAttack(atkSpeed, dfnSpeed) {
+      return getRandomValue(1, 50) + atkSpeed - dfnSpeed < 10 ? true : false;
     },
   },
   watch: {
@@ -126,10 +133,15 @@ const app = Vue.createApp({
 
     attackPlayer() {
       const attack = getRandomValue(7, 15);
-      this.addTurbo(10);
-      this.playerHealth -= attack;
-      this.currentTurn = "player";
-      this.monsterMessageLog = `Monster attacked you and dealt ${attack} damage!`;
+      if (this.dodgeAttack(this.monsterSpeed, this.playerSpeed)) {
+        this.currentTurn = "player";
+        this.monsterMessageLog = `Monster missed his attack!`;
+      } else {
+        this.addTurbo(10);
+        this.playerHealth -= attack;
+        this.currentTurn = "player";
+        this.monsterMessageLog = `Monster attacked you and dealt ${attack} damage!`;
+      }
     },
 
     monsterSuper() {
