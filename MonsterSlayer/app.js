@@ -25,6 +25,7 @@ const app = Vue.createApp({
       // Common stats
       showLog: false,
       showPlayerNameInput: true,
+      showUseMenu: false,
       playerName: "Player",
       winner: null,
       playerMessageLog: "",
@@ -38,6 +39,10 @@ const app = Vue.createApp({
     }
   },
   computed: {
+    showBattleButtons() {
+      return !this.showLog && !this.showUseMenu ? true : false;
+    },
+
     playerHealthStyles() {
       const actualPlayerHealth = calculatePercentage(
         this.playerHealth,
@@ -91,20 +96,32 @@ const app = Vue.createApp({
   methods: {
     // Player moves set
 
+    toggleShowUseMenu() {
+      this.showUseMenu = !this.showUseMenu;
+    },
+
     dodgeAttack(atkSpeed, dfnSpeed) {
       return getRandomValue(1, 50) + atkSpeed - dfnSpeed < 10;
     },
 
     useEther() {
       this.ether -= 1;
-      this.playerMana += 10;
+
+      this.playerMana + 10 > 100
+        ? ((this.playerMana = 100),
+          (this.playerMessageLog = "You have full mana!"))
+        : ((this.playerthis.playerMana += 10),
+          (this.playerMessageLog = `You recovered 10 MP!`));
+
+      this.toggleShowUseMenu();
       this.currentTurn = "monster";
-      this.playerMessageLog = `You recovered 10 MP!`;
       this.monsterTurn();
     },
 
     useCheer() {
       this.playerSpeed++;
+      this.toggleShowUseMenu();
+
       this.currentTurn = "monster";
       this.playerMessageLog = `You increased your speed!`;
       this.monsterTurn();
