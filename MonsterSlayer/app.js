@@ -68,10 +68,6 @@ const app = Vue.createApp({
       );
       return { width: actualMonsterHealth + "%" };
     },
-
-    dodgeAttack(atkSpeed, dfnSpeed) {
-      return getRandomValue(1, 50) + atkSpeed - dfnSpeed < 10 ? true : false;
-    },
   },
   watch: {
     name(value) {
@@ -95,13 +91,38 @@ const app = Vue.createApp({
   methods: {
     // Player moves set
 
+    dodgeAttack(atkSpeed, dfnSpeed) {
+      return getRandomValue(1, 50) + atkSpeed - dfnSpeed < 10;
+    },
+
+    useEther() {
+      this.ether -= 1;
+      this.playerMana += 10;
+      this.currentTurn = "monster";
+      this.playerMessageLog = `You recovered 10 MP!`;
+      this.monsterTurn();
+    },
+
+    useCheer() {
+      this.playerSpeed++;
+      this.currentTurn = "monster";
+      this.playerMessageLog = `You increased your speed!`;
+      this.monsterTurn();
+    },
+
     attackMonster() {
       const attack = getRandomValue(5, 12);
-      this.addTurbo(4);
-      this.monsterHealth -= attack;
-      this.currentTurn = "monster";
-      this.playerMessageLog = `You dealt ${attack} damage to the monster!`;
-      this.monsterTurn();
+      if (this.dodgeAttack(this.playerSpeed, this.monsterSpeed)) {
+        this.currentTurn = "monster";
+        this.playerMessageLog = `The monster dodged your attack!`;
+        this.monsterTurn();
+      } else {
+        this.addTurbo(4);
+        this.monsterHealth -= attack;
+        this.currentTurn = "monster";
+        this.playerMessageLog = `You dealt ${attack} damage to the monster!`;
+        this.monsterTurn();
+      }
     },
 
     turboAttackMonster() {
