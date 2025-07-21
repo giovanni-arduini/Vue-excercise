@@ -1,6 +1,7 @@
 const app = Vue.createApp({
   data() {
     return {
+      detailsAreVisible: false,
       friends: [
         {
           id: "manuel",
@@ -17,5 +18,11 @@ const app = Vue.createApp({
       ],
     };
   },
-  methods: {},
+  methods: {
+    toggleDetails() {
+      this.detailsAreVisible = !this.detailsAreVisible;
+    },
+  },
 });
+
+app.mount("#app");
